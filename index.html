@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musiq app</title>
+    <style>
+        * {
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+}
+body {
+	padding: 20px 10px;
+	display: grid;
+	grid-gap: 10px;
+	grid-template-columns: repeat(8, 1fr);
+	justify-content: space-evenly;
+}
+form {
+	grid-column: 1/3;
+	border: 2px solid black;
+	border-radius: 10px;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	height: auto;
+	align-items: center;
+	justify-content: space-evenly;
+	height: 70vh;
+	position: fixed;
+}
+form > div {
+	text-align: start;
+	width: 90%;
+}
+input {
+	margin: 20px 5px;
+	border: none;
+	border-radius: 10px;
+	box-shadow: 0 0 3px 1.5px rgb(34, 194, 34);
+	height: 2em;
+	overflow-x: scroll;
+	width: 100%;
+}
+label {
+	font-size: 2rem;
+}
+.parent {
+	background-color: black;
+	grid-column: 3/9;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	border-radius: 20px;
+}
+.container {
+	flex: 1fr;
+	display: flex;
+	flex-wrap: wrap;
+	background-color: rgb(174, 208, 190);
+	border-radius: 5px;
+	margin: 10px 20px;
+	justify-content: space-between;
+	padding: 10px;
+	float: right;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+.container > div {
+	flex: 1fr;
+	display: flex;
+	margin: 0px 20px;
+	flex-wrap: wrap;
+}
+img {
+	height: 50px;
+	width: 50px;
+	align-self: center;
+	cursor: pointer;
+	border-radius: 50%;
+}
+h1 {
+	align-self: center;
+	color: white;
+	text-transform: uppercase;
+	font-weight: 2rem;
+	font-size: min(250%, 7.5vw);
+}
+a {
+	margin: 4px 10px;
+	display: grid;
+	background-color: rgb(34, 194, 34);
+	color: white;
+	width: min(20%, 7vw);
+	align-self: center;
+	outline: none;
+	place-items: center;
+	padding: 3px;
+	border-radius: 3px;
+	text-decoration: none;
+	overflow: hidden;
+	height: 2rem;
+}
+audio {
+	opacity: 0.2;
+	align-self: center;
+	display: none;
+}
+button {
+	border: none;
+	outline: none;
+	width: max(intitial, 9vw);
+	height: 3vw;
+	font-size: 1.5vw;
+	background-color: rgb(34, 194, 34);
+	color: white;
+	border-radius: 1vw;
+}
+button:hover {
+	cursor: pointer;
+}
+button:active,
+a:active {
+	transform: scale(0.85);
+}
+
+    </style>
+</head>
+<body>
+    <form action="" method = "">
+        <div>
+                <label for="name">Name: </label>
+                <input type="text" id="name" required> <br></div>
+        <div>        <label for="audiourl">Audio url: </label>
+                <input type="text" id="audiourl" required> <br></div>
+        <div>   <label for="imgurl">img url: </label>
+                <input type="text" id="imgurl"></div>
+        <button type="submit">Add to list</button>     
+    </form>
+    <div class="parent">
+    </div>
+    <script>
+        var formdata = document.querySelector('form');
+var inpname = document.getElementById('name');
+var inpaudiourl = document.getElementById('audiourl');
+var inpimgurl = document.getElementById('imgurl');
+var artist /** @class */ = (function() {
+	function artist() {}
+	return artist;
+})();
+var song /** @class */ = (function() {
+	function song(name, url, imgurl) {
+		if (imgurl === void 0) {
+			imgurl =
+				'https://images.unsplash.com/photo-1589411455091-5a6281e0aa95?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80';
+		}
+		this.name = name;
+		this.audio_url = url;
+		this.image_url = imgurl;
+	}
+	return song;
+})();
+var playlist /** @class */ = (function() {
+	function playlist() {
+		this.songlist = [];
+	}
+	playlist.prototype.appendtodiv = function(song) {
+		this.songlist.push(song);
+		document.querySelector('.parent').innerHTML = '';
+		for (var _i = 0, _a = this.songlist.reverse(); _i < _a.length; _i++) {
+			var i = _a[_i];
+			document.querySelector('.parent').innerHTML +=
+				'\n            <div class="container">\n                <img src="' +
+				i.image_url +
+				'" alt="upload an image">\n                <h1>' +
+				i.name +
+				'</h1>\n                <audio controls="controls" loop>\n                    <source src="' +
+				i.audio_url +
+				'" type="audio/mpeg">\n                </audio>\n                <a href="#">play</a>\n            </div>\n            ';
+		}
+	};
+	return playlist;
+})();
+var songslist = new playlist();
+var song1 = new song('Alone', 'Alan walker - Alone.mp3');
+songslist.appendtodiv(song1);
+songslist.appendtodiv(new song('Faded', 'Alan_Walker_-_Faded.mp3'));
+songslist.appendtodiv(new song('Summer', 'Calvin Harris - Summer.mp3'));
+songslist.appendtodiv(new song('Attention', 'Charlie_Puth_-_Attention_[Official_Video].mp3'));
+songslist.appendtodiv(new song('Confident', 'Demi_Lovato_-_Confident_(Official_Video).mp3'));
+songslist.appendtodiv(new song('Shape Of You', 'Ed_Sheeran_-_Shape_of_You_[Official_Video].mp3'));
+songslist.appendtodiv(new song('Blank', 'Taylor_Swift_-_Blank_Space.mp3'));
+songslist.appendtodiv(new song('Animals', 'Maroon 5 - Animals.mp3'));
+songslist.appendtodiv(new song('dont let me down', 'The Chainsmokers - Dont Let Me Down ft. Daya.mp3'));
+formdata.addEventListener('submit', function(event) {
+	event.preventDefault();
+	event.stopPropagation();
+	if (check(inpaudiourl.value) && inpaudiourl.value) {
+		if (inpimgurl.value) songslist.appendtodiv(new song(inpname.value, inpaudiourl.value, inpimgurl.value));
+		else songslist.appendtodiv(new song(inpname.value, inpaudiourl.value));
+	} else {
+		alert('This Song is already added to list');
+	}
+});
+function check(str) {
+	songslist.songlist.forEach(function(v) {
+		if (v.audio_url == str) return false;
+	});
+	return true;
+}
+document.querySelectorAll('a').forEach((v) => {
+	v.addEventListener('click', function(event) {
+		event.preventDefault();
+		event.stopPropagation();
+		let audio = event.target.previousElementSibling;
+		if (audio.currentTime >= 0 && audio.paused) {
+			audio.play();
+			audio.style.display = 'inline-block';
+			event.target.textContent = 'pause';
+		} else {
+			audio.pause();
+			event.target.textContent = 'play';
+		}
+		document.querySelectorAll('audio').forEach((v) => {
+			if (v != audio) {
+				v.style.display = 'none';
+				v.pause();
+			}
+		});
+	});
+});
+
+    </script>
+</body>
+</html>
